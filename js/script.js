@@ -1,21 +1,26 @@
-document.getElementById("saveForm").addEventListener("submit", function (event) {
+$("#saveForm").submit(function(event) {
     event.preventDefault();
 
+    let username = $("#username").val();
+    let email = $("#email").val();
+    let password = $("#password").val();
 
-    let username = document.getElementById("username").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-
-    let xhr = new XMLHttpRequest()
-    xhr.open("POST", "php/backend.php", true)
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById("message").innerHTML = xhr.responseText
-            setTimeout(function () {
-                document.getElementById("message").innerHTML = ""
-            }, 3000)
+    $.ajax({
+        type: "POST",
+        url: "php/backend.php",
+        data: {
+            username: username,
+            email: email,
+            password: password
+        },
+        success: function(response) {
+            let uname = encodeURIComponent(username)
+            let userEmail = encodeURIComponent(email)
+            let userPassword = encodeURIComponent(password)
+            let message = encodeURIComponent(response)
+            window.location.href = "userData.html?username=" + uname +
+                "&email=" + userEmail + "&password=" + userPassword +
+                "&message=" + message;
         }
-    }
-    xhr.send("username=" + username + "&email=" + email + "&password=" + password)
-})
+    });
+});

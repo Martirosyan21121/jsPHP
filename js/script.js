@@ -23,4 +23,8 @@ $("#saveForm").submit(function(event) {
                 "&message=" + message;
         }
     });
+
+    $('#login').click(function (){
+        window.location.href = 'login.html'
+    })
 });
